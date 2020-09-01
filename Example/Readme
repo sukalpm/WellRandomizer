@@ -1,0 +1,3 @@
+PilotExperiment.csv = Input file for Echo
+map.csv = Mapping file listing new to old well mappings
+rand_output.csv = Randomized input file for Echo (fixed blank line issue)
