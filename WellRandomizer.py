@@ -10,6 +10,8 @@ import pandas as pd
 import numpy as np
 import sys
 import argparse
+import csv
+import os
 pd.set_option('display.min_rows', 100)
 parser = argparse.ArgumentParser(description='Well Randomizer v0.1')
 parser.add_argument("-i", required = True, type = str, help="Input file")
@@ -72,5 +74,18 @@ for row in df2.iterrows():
 df[['Destination Barcode', 'Destination Well']] = df['dest_bc/well'].str.split(":", expand = True)
 df[['old_mapping_bc', 'old_mapping_well']] = df['old_mapping'].str.split(":", expand = True)
 df[['Destination Well', 'old_mapping_bc', 'old_mapping_well']].to_csv(args.m, index = False)
-rand_df.to_csv(args.o, index = False)
+rand_df.to_csv("tmp.csv", index = False)
+
+
+# In[ ]:
+
+
+with open("tmp.csv", 'r') as in_file:
+    read = csv.reader(in_file, delimiter=',')
+    with open(args.o, 'wt') as out_file:
+        writer=csv.writer(out_file, delimiter=',')
+        for row in read:
+            writer.writerow(row)
+            writer.writerow([])
+os.remove("tmp.csv")
 
